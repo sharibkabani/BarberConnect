@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react";
-import { UserContext } from "../UserContext";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../UserContext";
 
 const Dashboard = () => {
 	useEffect(() => {
@@ -19,14 +19,22 @@ const Dashboard = () => {
 		return name.charAt(0).toUpperCase() + name.slice(1);
 	};
 
+	console.log(user);
+
+	const welcomeMsg = () => {
+		if (user && user.user_type === "client") {
+			return `Let's get fresh, ${capitalizeFirstLetter(user.first_name)}!`;
+		} else if (user && user.user_type === "barber") {
+			return `Who's next, ${capitalizeFirstLetter(user.first_name)}?`;
+		}
+	};
+
 	return (
 		<div className="flex justify-center items-center h-screen">
 			<div className="text-center">
-				{user ? (
+				{user && user.first_name ? (
 					<>
-						<h1 className="text-2xl font-bold mt-8">
-							Welcome, {capitalizeFirstLetter(user.first_name)}!
-						</h1>
+						<h1 className="text-2xl font-bold mt-8">{welcomeMsg()}</h1>
 						<Link
 							to="/"
 							onClick={handleLogout}

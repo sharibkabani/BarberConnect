@@ -12,8 +12,6 @@ function initialize(passport) {
 					throw err;
 				}
 
-				console.log(results.rows);
-
 				if (results.rows.length > 0) {
 					const user = results.rows[0];
 
@@ -37,8 +35,6 @@ function initialize(passport) {
 							if (err) {
 								throw err;
 							}
-
-							console.log(results.rows);
 
 							if (results.rows.length > 0) {
 								const user = results.rows[0];

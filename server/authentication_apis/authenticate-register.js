@@ -4,10 +4,17 @@ const pool = require("../db");
 const bcrypt = require("bcrypt");
 
 router.post("/register-new-user", async (req, res) => {
-	const { username, first_name, last_name, email, password, password2, user_type } =
-        req.body;
+	const {
+		username,
+		first_name,
+		last_name,
+		email,
+		password,
+		password2,
+		user_type,
+	} = req.body;
 
-    console.log(req.body);
+	console.log(req.body);
 
 	let errors = [];
 
@@ -27,6 +34,9 @@ router.post("/register-new-user", async (req, res) => {
 	}
 	if (password !== password2) {
 		errors.push({ message: "Passwords do not match" });
+	}
+	if (user_type !== "client" && user_type !== "barber") {
+		errors.push({ message: "Select user type" });
 	}
 
 	// Check if email is already registered
@@ -83,7 +93,14 @@ router.post("/register-new-user", async (req, res) => {
 
 		res
 			.status(201)
-			.json({ first_name: first_name, last_name: last_name, user_type: user_type, userId: userId, username: username, email: email });
+			.json({
+				first_name: first_name,
+				last_name: last_name,
+				user_type: user_type,
+				id: userId,
+				username: username,
+				email: email,
+			});
 	}
 });
 

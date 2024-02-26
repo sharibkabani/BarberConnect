@@ -6,7 +6,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-
 	useEffect(() => {
 		document.title = "Register - BarberConnect";
 	}, []);
@@ -19,7 +18,7 @@ const Register = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [password2, setConfirmPassword] = useState("");
-	const [user_type, setUserType] = useState("user");
+	const [user_type, setUserType] = useState("");
 	const [error, setError] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -27,7 +26,7 @@ const Register = () => {
 		e.preventDefault();
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/register-new-user",
+				"http://localhost:5000/register/register-new-user",
 				{
 					username,
 					first_name,
@@ -40,7 +39,11 @@ const Register = () => {
 			);
 			localStorage.setItem("user", JSON.stringify(response.data));
 			setUser(response.data);
-			navigate("/dashboard");
+			if (user_type === "barber") {
+				navigate("/barber-form/" + response.data.id);
+			} else {
+				navigate("/dashboard");
+			}
 		} catch (error) {
 			setError(error.response.data.errors);
 		}
@@ -67,6 +70,9 @@ const Register = () => {
 						onChange={(e) => setUserType(e.target.value)}
 						className="border border-gray-300 px-2 py-1 rounded"
 					>
+						<option value="" disabled>
+							Select User Type
+						</option>
 						<option value="client">Client</option>
 						<option value="barber">Barber</option>
 					</select>

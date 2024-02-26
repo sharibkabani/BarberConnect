@@ -16,8 +16,15 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
 	try {
 		const { id } = req.params;
-		const user = await pool.query("SELECT * FROM clients WHERE id = $1", [id]);
-		res.json(user.rows);
+		const findClient = await pool.query("SELECT * FROM clients WHERE id = $1", [id]);
+
+		// Add user_type to each client
+		const client = findClient.rows.map((row) => ({
+			...row,
+			user_type: "client",
+		}));
+
+		res.json(client);
 	} catch (err) {
 		console.error(err.message);
 	}

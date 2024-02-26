@@ -68,7 +68,7 @@ const authenticateUser = async (req, res, next) => {
 	);
 };
 
-// Example protected route
+// Authenticate user
 router.post("/authenticate-user", authenticateUser, (req, res) => {
 	pool.query(
 		"SELECT * FROM clients WHERE username = $1",
@@ -89,6 +89,7 @@ router.post("/authenticate-user", authenticateUser, (req, res) => {
 						username: user.username,
 						email: user.email,
 						id: user.id,
+						user_type: "client",
 					});
 			} else {
 				pool.query(
@@ -104,7 +105,7 @@ router.post("/authenticate-user", authenticateUser, (req, res) => {
 							res.status(200).json({
 								first_name: user.first_name,
 								last_name: user.last_name,
-								user_type: "client",
+								user_type: "barber",
 								username: user.username,
 								email: user.email,
 								id: user.id,

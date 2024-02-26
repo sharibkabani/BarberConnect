@@ -20,7 +20,7 @@ const Login = () => {
 		e.preventDefault();
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/authenticate-user",
+				"http://localhost:5000/login/authenticate-user",
 				{
 					username,
 					password,
