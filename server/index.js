@@ -11,7 +11,7 @@ require("dotenv").config();
 // Middleware
 app.use(
 	cors({
-		origin: "https://barberconnectbackend.onrender.com",
+		origin: "https://barberconnect-1.onrender.com",
 	})
 );
 app.use(express.json());
