@@ -19,7 +19,7 @@ const Login = () => {
 		e.preventDefault();
 		try {
 			const response = await axios.post(
-				"https://technotes-api.onrender.com/login/authenticate-user",
+				"https://barberconnectbackend.onrender.com/login/authenticate-user",
 				{
 					username,
 					password,

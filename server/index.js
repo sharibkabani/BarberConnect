@@ -10,7 +10,7 @@ const appointmentRoutes = require("./appointment_apis/appointments");
 // Middleware
 app.use(
 	cors({
-		origin: "https://technotes-api.onrender.com",
+		origin: "https://barberconnectbackend.onrender.com",
 	})
 );
 app.use(express.json());

@@ -39,7 +39,7 @@ const BarberProfile = () => {
 
 	const getBarber = () => {
 		axios
-			.get("https://technotes-api.onrender.com/barber/" + id)
+			.get("https://barberconnectbackend.onrender.com/barber/" + id)
 			.then((response) => {
 				setBarber(response.data[0]);
 			})
@@ -49,7 +49,9 @@ const BarberProfile = () => {
 	};
 
 	const fetchAvailability = async () => {
-		let response = await axios.get(`https://technotes-api.onrender.com/barber/${id}`);
+		let response = await axios.get(
+			`https://barberconnectbackend.onrender.com/barber/${id}`
+		);
 		const barber = response.data[0];
 		if (barber.days_of_week && barber.time_range) {
 			const days_of_week = barber.days_of_week.split(", ").map((day) => {
@@ -79,7 +81,7 @@ const BarberProfile = () => {
 
 	const fetchAppointments = async () => {
 		const response = await axios.get(
-			"https://technotes-api.onrender.com/appointments/barber/" + id
+			"https://barberconnectbackend.onrender.com/appointments/barber/" + id
 		);
 		const appointmentsData = response.data;
 		setAppointments(appointmentsData);
@@ -150,12 +152,15 @@ const BarberProfile = () => {
 
 	const bookAppointment = async () => {
 		const date = selectedDay.toISOString().split("T")[0];
-		const response = await axios.post("https://technotes-api.onrender.com/appointments/", {
-			client_id: user.id,
-			barber_id: id,
-			date,
-			time: selectedTime,
-		});
+		const response = await axios.post(
+			"https://barberconnectbackend.onrender.com/appointments/",
+			{
+				client_id: user.id,
+				barber_id: id,
+				date,
+				time: selectedTime,
+			}
+		);
 		navigate("/client-dashboard");
 	};
 

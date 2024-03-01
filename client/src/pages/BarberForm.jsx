@@ -128,7 +128,7 @@ const BarberForm = () => {
 			formData.append("id", id);
 
 			const response = await axios.put(
-				"https://technotes-api.onrender.com/barber/barber-form/" + id,
+				"https://barberconnectbackend.onrender.com/barber/barber-form/" + id,
 				formData,
 				{
 					headers: {
@@ -138,7 +138,7 @@ const BarberForm = () => {
 			);
 
 			const user = await axios.get(
-				"https://technotes-api.onrender.com/barber/" + id
+				"https://barberconnectbackend.onrender.com/barber/" + id
 			);
 
 			localStorage.setItem("user", JSON.stringify(user.data[0]));
