@@ -8,7 +8,11 @@ const registerAuth = require("./authentication_apis/authenticate-register");
 const appointmentRoutes = require("./appointment_apis/appointments");
 
 // Middleware
-app.use(cors());
+app.use(
+	cors({
+		origin: "https://technotes-api.onrender.com",
+	})
+);
 app.use(express.json());
 
 // Routes
@@ -25,4 +29,3 @@ app.get("/", (req, res) => {
 app.listen(5000, () => {
 	console.log("Server is running on port 5000");
 });
-
