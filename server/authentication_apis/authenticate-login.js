@@ -1,12 +1,11 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const pool = require("../db");
 
 const router = express.Router();
 
 // Middleware to authenticate the user
 const authenticateUser = async (req, res, next) => {
-	console.log(req.body);
 	pool.query(
 		"SELECT * FROM clients WHERE username = $1",
 		[req.body.username],
@@ -80,17 +79,15 @@ router.post("/authenticate-user", authenticateUser, (req, res) => {
 
 			if (results.rows.length > 0) {
 				const user = results.rows[0];
-				res
-					.status(200)
-					.json({
-						first_name: user.first_name,
-						last_name: user.last_name,
-						user_type: "client",
-						username: user.username,
-						email: user.email,
-						id: user.id,
-						user_type: "client",
-					});
+				res.status(200).json({
+					first_name: user.first_name,
+					last_name: user.last_name,
+					user_type: "client",
+					username: user.username,
+					email: user.email,
+					id: user.id,
+					user_type: "client",
+				});
 			} else {
 				pool.query(
 					"SELECT * FROM barbers WHERE username = $1",

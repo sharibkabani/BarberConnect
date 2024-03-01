@@ -26,7 +26,7 @@ const Register = () => {
 		e.preventDefault();
 		try {
 			const response = await axios.post(
-				"https://barberconnectbackend.onrender.com/register/register-new-user",
+				"http://localhost:5000/register/register-new-user",
 				{
 					username,
 					first_name,
@@ -42,7 +42,7 @@ const Register = () => {
 			if (user_type === "barber") {
 				navigate("/barber-form/" + response.data.id);
 			} else {
-				navigate("/dashboard");
+				navigate("/client-dashboard");
 			}
 		} catch (error) {
 			setError(error.response.data.errors);
@@ -147,7 +147,7 @@ const Register = () => {
 				<div className="mb-4">
 					<button
 						type="submit"
-						className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+						className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 font-bold"
 					>
 						Register
 					</button>
@@ -157,7 +157,7 @@ const Register = () => {
 					{/* Add margin-top to create space */}
 					<Link
 						to="/login"
-						className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+						className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 font-bold"
 					>
 						Already have an account? Login
 					</Link>

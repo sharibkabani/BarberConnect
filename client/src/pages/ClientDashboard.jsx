@@ -46,15 +46,13 @@ const ClientDashboard = () => {
 	const checkAppointment = async () => {
 		try {
 			const response = await axios.get(
-				"https://barberconnectbackend.onrender.com/appointments/client/" +
-					user.id
+				"http://localhost:5000/appointments/client/" + user.id
 			);
 			setAppointments(response.data);
 
 			if (response.data.length > 0) {
 				const barberResponse = await axios.get(
-					"https://barberconnectbackend.onrender.com/barber/" +
-						response.data[0].barber_id
+					"http://localhost:5000/barber/" + response.data[0].barber_id
 				);
 				setBarber(barberResponse.data[0]);
 			}
@@ -65,9 +63,7 @@ const ClientDashboard = () => {
 
 	const getBarbers = async () => {
 		try {
-			const response = await axios.get(
-				"https://barberconnectbackend.onrender.com/barber/"
-			);
+			const response = await axios.get("http://localhost:5000/barber/");
 
 			// Fetch distances for each barber and add them to the barber objects
 			const barbersWithDistances = await Promise.all(
@@ -86,8 +82,7 @@ const ClientDashboard = () => {
 	const cancelAppointment = async (appointmentId) => {
 		try {
 			const response = await axios.delete(
-				"https://barberconnectbackend.onrender.com/appointments/" +
-					appointmentId
+				"http://localhost:5000/appointments/" + appointmentId
 			);
 
 			setAppointments(
@@ -105,7 +100,7 @@ const ClientDashboard = () => {
 		}
 		try {
 			const response = await axios.post(
-				"https://barberconnectbackend.onrender.com/client/getDistance",
+				"http://localhost:5000/client/getDistance",
 				{
 					userLongitude,
 					userLatitude,

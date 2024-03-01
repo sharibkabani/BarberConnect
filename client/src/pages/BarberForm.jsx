@@ -1,16 +1,43 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { UserContext } from "../UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import CurrencyInput from "react-currency-input-field";
-import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 const BarberForm = () => {
+	const inputRef = useRef();
+
+	const { user } = useContext(UserContext);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (user.user_type === "client") {
+			navigate("/client-dashboard");
+		}
+	}, [user, navigate]);
+
+	if (!user) {
+		navigate("/login");
+	}
+
 	useEffect(() => {
 		document.title = "Barber Form - BarberConnect";
+
+		const script = document.createElement("script");
+		script.src =
+			"http://maps.googleapis.com/maps/api/js?key=" +
+			import.meta.env.VITE_GOOGLE_API_KEY +
+			"&libraries=places";
+		script.async = true;
+		document.body.appendChild(script);
+
+		script.addEventListener("load", initAutocomplete);
+
+		return () => {
+			document.body.removeChild(script);
+		};
 	}, []);
 
-<<<<<<< HEAD
 	function initAutocomplete() {
 		window.autocomplete = new window.google.maps.places.Autocomplete(
 			inputRef.current,
@@ -26,9 +53,6 @@ const BarberForm = () => {
 		});
 	}
 
-=======
-	const navigate = useNavigate();
->>>>>>> parent of 6b56b84 (added appointments and barber profiles)
 	const { setUser } = useContext(UserContext);
 
 	let id = null;
@@ -62,31 +86,49 @@ const BarberForm = () => {
 		}
 	};
 
+	const [selectedHours, setSelectedHours] = useState([]);
+	const handleHourClick = (hour) => {
+		if (selectedHours.includes(hour)) {
+			setSelectedHours(
+				selectedHours.filter((selectedHour) => selectedHour !== hour)
+			);
+		} else {
+			setSelectedHours([...selectedHours, hour]);
+		}
+	};
+
+	function convertTo24Hour(time) {
+		const [hour, minutePeriod] = time.split(":");
+		const [minute, period] = minutePeriod.split(/(AM|PM)/);
+		let hourIn24 = parseInt(hour, 10);
+		if (period === "PM" && hourIn24 < 12) {
+			hourIn24 += 12;
+		}
+		if (period === "AM" && hourIn24 === 12) {
+			hourIn24 = 0;
+		}
+		return `${hourIn24}:${minute}`;
+	}
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setIsLoading(true);
+		const timeRange24Hour = selectedHours.map(convertTo24Hour).join(", ");
 		try {
-			console.log({
-				pricing,
-				instagram_username,
-				shop_address,
-				days_of_week,
-				time_range,
-				profile_picture_url,
-				id,
-			});
-
 			const formData = new FormData();
 			formData.append("pricing", pricing);
 			formData.append("instagram_username", instagram_username);
 			formData.append("shop_address", shop_address);
-			formData.append("days_of_week", selectedDays.join(", "));
-			formData.append("time_range", time_range);
+			formData.append("days_of_week", selectedDays.sort().join(", "));
+			formData.append(
+				"time_range",
+				selectedHours.sort().map(convertTo24Hour).join(", ")
+			);
 			formData.append("profile_picture_url", profile_picture_url);
 			formData.append("id", id);
 
 			const response = await axios.put(
-				"https://barberconnectbackend.onrender.com/barber/barber-form/" + id,
+				"http://localhost:5000/barber/barber-form/" + id,
 				formData,
 				{
 					headers: {
@@ -95,15 +137,11 @@ const BarberForm = () => {
 				}
 			);
 
-			const user = await axios.get(
-				"https://barberconnectbackend.onrender.com/barber/" + id
-			);
-
-			console.log(user.data[0]);
+			const user = await axios.get("http://localhost:5000/barber/" + id);
 
 			localStorage.setItem("user", JSON.stringify(user.data[0]));
 			setUser(user.data[0]);
-			navigate("/dashboard");
+			navigate("/barber-dashboard");
 		} catch (error) {
 			setError(error.response.data.message);
 		} finally {
@@ -126,6 +164,7 @@ const BarberForm = () => {
 					<CurrencyInput
 						prefix="$"
 						value={pricing}
+						placeholder="Enter pricing"
 						onValueChange={(value) =>
 							setPricing(parseInt(value.replace(/\D/g, "")))
 						}
@@ -139,49 +178,65 @@ const BarberForm = () => {
 						value={instagram_username}
 						onChange={(e) => setInstagram(e.target.value)}
 						className="border border-gray-300 px-2 py-1 rounded"
+						placeholder="Enter Instagram username"
 					/>
 				</div>
-				<div className="mb-4">
+				<div className="mb-4 flex flex-row items-center">
 					<label className="mr-2">Shop Address:</label>
-					<GooglePlacesAutocomplete
-						apiKey={import.meta.env.VITE_GOOGLE_API_KEY}
-						selectProps={{
-							value: shop_address,
-							onChange: (value) => setShopAddress(value.label),
-						}}
-					/>
-				</div>
-				<div className="mb-4">
-					<label className="mr-2">Days Available:</label>
-					{[
-						"Sunday",
-						"Monday",
-						"Tuesday",
-						"Wednesday",
-						"Thursday",
-						"Friday",
-						"Saturday",
-					].map((day) => (
-						<button
-							key={day}
-							type="button"
-							onClick={() => handleDayClick(day)}
-							className={`border border-gray-300 px-2 py-1 rounded ${
-								selectedDays.includes(day) ? "bg-blue-500 text-white" : ""
-							}`}
-						>
-							{day}
-						</button>
-					))}
-				</div>
-				<div className="mb-4">
-					<label className="mr-2">Hours Available:</label>
 					<input
+						ref={inputRef}
 						type="text"
-						value={time_range}
-						onChange={(e) => setHoursAvailable(e.target.value)}
+						id="shop_address"
 						className="border border-gray-300 px-2 py-1 rounded"
+						placeholder="Enter shop address"
+						onChange={(e) => setShopAddress(e.target.value)}
 					/>
+				</div>
+				<div className="w-1/2 mb-4 flex flex-col items-center">
+					<label className="mb-2">Days Available:</label>
+					<div className="grid grid-flow-col auto-cols-auto gap-2">
+						{[
+							"Sunday",
+							"Monday",
+							"Tuesday",
+							"Wednesday",
+							"Thursday",
+							"Friday",
+							"Saturday",
+						].map((day) => (
+							<button
+								key={day}
+								type="button"
+								onClick={() => handleDayClick(day)}
+								className={`border border-gray-300 px-2 py-1 rounded whitespace-nowrap ${
+									selectedDays.includes(day) ? "bg-blue-500 text-white" : ""
+								}`}
+							>
+								{day}
+							</button>
+						))}
+					</div>
+				</div>
+				<div className="w-1/2 mb-4 flex flex-col items-center">
+					<label className="mb-2">Hours Available:</label>
+					<div className="grid grid-flow-col auto-cols-auto gap-2 overflow-x-auto max-w-xs">
+						{Array.from({ length: 24 }, (_, i) => {
+							const hour = i === 0 ? 12 : i > 12 ? i - 12 : i;
+							const period = i >= 12 ? "PM" : "AM";
+							return `${hour}:00${period}`;
+						}).map((time) => (
+							<button
+								key={time}
+								type="button"
+								onClick={() => handleHourClick(time)}
+								className={`border border-gray-300 px-2 py-1 rounded whitespace-nowrap ${
+									selectedHours.includes(time) ? "bg-blue-500 text-white" : ""
+								}`}
+							>
+								{time}
+							</button>
+						))}
+					</div>
 				</div>
 				<div className="mb-4">
 					<label className="mr-2">Profile Picture:</label>

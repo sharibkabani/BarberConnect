@@ -5,13 +5,12 @@ import { UserContext } from "../UserContext";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-
 	useEffect(() => {
 		document.title = "Login - BarberConnect";
 	}, []);
 
 	const navigate = useNavigate();
-    const { setUser } = useContext(UserContext);
+	const { setUser } = useContext(UserContext);
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
@@ -20,7 +19,7 @@ const Login = () => {
 		e.preventDefault();
 		try {
 			const response = await axios.post(
-				"https://barberconnectbackend.onrender.com/login/authenticate-user",
+				"http://localhost:5000/login/authenticate-user",
 				{
 					username,
 					password,
@@ -28,7 +27,11 @@ const Login = () => {
 			);
 			localStorage.setItem("user", JSON.stringify(response.data));
 			setUser(response.data);
-			navigate("/dashboard");
+			if (response.data.user_type === "barber") {
+				navigate("/barber-dashboard");
+			} else {
+				navigate("/client-dashboard");
+			}
 		} catch (error) {
 			setError(error.response.data.message); // Handle login error
 		}
@@ -60,15 +63,16 @@ const Login = () => {
 				<div>
 					<button
 						type="submit"
-						className="bg-blue-500 text-white px-4 py-2 rounded"
+						className="bg-blue-500 text-white px-4 py-2 rounded font-bold hover:bg-blue-700 mb-3"
 					>
 						Login
 					</button>
 				</div>
+
 				<div>
 					<Link
 						to="/register"
-						className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+						className="px-4 py-2 font-bold bg-green-500 text-white rounded-md hover:bg-green-600"
 					>
 						Don't have an account? Register
 					</Link>

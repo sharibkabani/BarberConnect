@@ -29,15 +29,11 @@ const BarberDashboard = () => {
 	const checkAppointments = async () => {
 		try {
 			const response = await axios.get(
-				"https://barberconnectbackend.onrender.com/appointments/barber/" +
-					user.id
+				"http://localhost:5000/appointments/barber/" + user.id
 			);
 
 			const clientPromises = response.data.map((appointment) =>
-				axios.get(
-					"https://barberconnectbackend.onrender.com/client/" +
-						appointment.client_id
-				)
+				axios.get("http://localhost:5000/client/" + appointment.client_id)
 			);
 			const clients = await Promise.all(clientPromises);
 
@@ -57,8 +53,7 @@ const BarberDashboard = () => {
 	const cancelAppointment = async (appointmentId) => {
 		try {
 			const response = await axios.delete(
-				"https://barberconnectbackend.onrender.com/appointments/" +
-					appointmentId
+				"http://localhost:5000/appointments/" + appointmentId
 			);
 			setAppointments(
 				appointments.filter((appointment) => appointment.id !== appointmentId)

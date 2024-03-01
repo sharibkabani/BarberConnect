@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../db");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 
 router.post("/register-new-user", async (req, res) => {
 	const {
@@ -13,8 +13,6 @@ router.post("/register-new-user", async (req, res) => {
 		password2,
 		user_type,
 	} = req.body;
-
-	console.log(req.body);
 
 	let errors = [];
 
@@ -91,16 +89,14 @@ router.post("/register-new-user", async (req, res) => {
 		]);
 		const userId = insertResult.rows[0].id;
 
-		res
-			.status(201)
-			.json({
-				first_name: first_name,
-				last_name: last_name,
-				user_type: user_type,
-				id: userId,
-				username: username,
-				email: email,
-			});
+		res.status(201).json({
+			first_name: first_name,
+			last_name: last_name,
+			user_type: user_type,
+			id: userId,
+			username: username,
+			email: email,
+		});
 	}
 });
 

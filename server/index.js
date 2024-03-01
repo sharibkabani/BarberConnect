@@ -8,11 +8,7 @@ const registerAuth = require("./authentication_apis/authenticate-register");
 const appointmentRoutes = require("./appointment_apis/appointments");
 
 // Middleware
-app.use(
-	cors({
-		origin: "https://barberconnect-1.onrender.com",
-	})
-);
+app.use(cors({}));
 app.use(express.json());
 
 // Routes
