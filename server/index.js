@@ -6,7 +6,6 @@ const barberRoutes = require("./user_apis/barberRoutes");
 const loginAuth = require("./authentication_apis/authenticate-login");
 const registerAuth = require("./authentication_apis/authenticate-register");
 const appointmentRoutes = require("./appointment_apis/appointments");
-require("dotenv").config();
 
 // Middleware
 app.use(
@@ -27,6 +26,6 @@ app.get("/", (req, res) => {
 	return res.status(200).send("Welcome to the server");
 });
 
-app.listen(process.env.PORT, () => {
-	
+app.listen(5000, () => {
+	console.log("Server is running on port 5000");
 });
