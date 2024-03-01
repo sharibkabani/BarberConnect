@@ -17,8 +17,12 @@
     "@aws-sdk/util-create-request": "^3.521.0",
     "@aws-sdk/util-format-url": "^3.521.0",
     "aws-sdk": "^2.1565.0",
+<<<<<<< HEAD
     "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
+=======
+    "bcrypt": "^5.1.1",
+>>>>>>> parent of 6b56b84 (added appointments and barber profiles)
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.9",

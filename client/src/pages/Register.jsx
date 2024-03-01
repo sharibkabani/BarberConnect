@@ -42,7 +42,7 @@ const Register = () => {
 			if (user_type === "barber") {
 				navigate("/barber-form/" + response.data.id);
 			} else {
-				navigate("/client-dashboard");
+				navigate("/dashboard");
 			}
 		} catch (error) {
 			setError(error.response.data.errors);
