@@ -8,6 +8,11 @@ import BarberForm from "./pages/BarberForm";
 import ClientDashboard from "./pages/ClientDashboard";
 import BarberDashboard from "./pages/BarberDashboard";
 import BarberProfile from "./pages/BarberProfile";
+import { disableReactDevTools } from "@fvilers/disable-react-devtools";
+
+if (process.env.NODE_ENV === "production") {
+	disableReactDevTools();
+}
 
 const App = () => {
 	return (

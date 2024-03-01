@@ -52,7 +52,7 @@ const BarberForm = () => {
 			setShopAddress(place.name);
 		});
 	}
-	
+
 	const { setUser } = useContext(UserContext);
 
 	let id = null;
@@ -128,7 +128,7 @@ const BarberForm = () => {
 			formData.append("id", id);
 
 			const response = await axios.put(
-				"http://localhost:5000/barber/barber-form/" + id,
+				"https://technotes-api.onrender.com/barber/barber-form/" + id,
 				formData,
 				{
 					headers: {
@@ -137,7 +137,9 @@ const BarberForm = () => {
 				}
 			);
 
-			const user = await axios.get("http://localhost:5000/barber/" + id);
+			const user = await axios.get(
+				"https://technotes-api.onrender.com/barber/" + id
+			);
 
 			localStorage.setItem("user", JSON.stringify(user.data[0]));
 			setUser(user.data[0]);

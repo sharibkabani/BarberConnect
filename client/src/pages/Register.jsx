@@ -26,7 +26,7 @@ const Register = () => {
 		e.preventDefault();
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/register/register-new-user",
+				"https://technotes-api.onrender.com/register/register-new-user",
 				{
 					username,
 					first_name,
