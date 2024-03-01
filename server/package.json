@@ -16,6 +16,7 @@
     "@aws-sdk/util-create-request": "^3.521.0",
     "@aws-sdk/util-format-url": "^3.521.0",
     "aws-sdk": "^2.1565.0",
+    "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

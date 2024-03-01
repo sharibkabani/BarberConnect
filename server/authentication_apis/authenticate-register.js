@@ -14,8 +14,6 @@ router.post("/register-new-user", async (req, res) => {
 		user_type,
 	} = req.body;
 
-	console.log(req.body);
-
 	let errors = [];
 
 	// Validation checks

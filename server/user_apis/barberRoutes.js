@@ -70,28 +70,32 @@ router.post("/", async (req, res) => {
 
 // See a barber
 router.get("/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const findBarber = await pool.query("SELECT * FROM barbers WHERE id = $1", [
-            id,
-        ]);
+	try {
+		const { id } = req.params;
+		const findBarber = await pool.query("SELECT * FROM barbers WHERE id = $1", [
+			id,
+		]);
 
-        // Add user_type to each barber
-        const barber = findBarber.rows.map(row => ({
-            ...row,
-            user_type: "barber"
-        }));
+		// Add user_type to each barber
+		const barber = findBarber.rows.map((row) => ({
+			...row,
+			user_type: "barber",
+		}));
 
-        res.json(barber);
-    } catch (err) {
-        console.error(err.message);
-    }
+		res.json(barber);
+	} catch (err) {
+		console.error(err.message);
+	}
 });
 
 // Delete a barber
 router.delete("/:id", async (req, res) => {
 	try {
 		const { id } = req.params;
+		const deleteAppointments = await pool.query(
+			"DELETE FROM appointments WHERE barber_id = $1",
+			[id]
+		);
 		const deleteBarber = await pool.query("DELETE FROM barbers WHERE id = $1", [
 			id,
 		]);

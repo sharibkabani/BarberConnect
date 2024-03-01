@@ -6,7 +6,6 @@ const router = express.Router();
 
 // Middleware to authenticate the user
 const authenticateUser = async (req, res, next) => {
-	console.log(req.body);
 	pool.query(
 		"SELECT * FROM clients WHERE username = $1",
 		[req.body.username],
