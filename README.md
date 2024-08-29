@@ -26,10 +26,18 @@ Full-stack development: Built using a combination of front-end and back-end tech
 
 **Images:**
 
-**Barber List**: <img width="593" alt="Screenshot 2024-08-29 at 4 15 18 AM" src="https://github.com/user-attachments/assets/1d9a2717-51cb-4d2b-8b11-8d6e10aef816">
+**Barber List**: 
 
-**Appointment Screen**: <img width="1439" alt="Screenshot 2024-08-29 at 4 15 08 AM" src="https://github.com/user-attachments/assets/2eac54eb-e392-43ac-9a32-fa2fca2eb3be">
+<img width="593" alt="Screenshot 2024-08-29 at 4 15 18 AM" src="https://github.com/user-attachments/assets/1d9a2717-51cb-4d2b-8b11-8d6e10aef816">
 
-**Pending Appointment**: <img width="622" alt="Screenshot 2024-08-29 at 4 16 35 AM" src="https://github.com/user-attachments/assets/bbe28501-cb6e-4768-b066-22c75b63d4a5">
+**Appointment Screen**: 
 
-**Barber Appointment**: <img width="550" alt="Screenshot 2024-08-29 at 4 16 44 AM" src="https://github.com/user-attachments/assets/8c9a9299-927c-4009-b058-1d1ba708e5d8">
+<img width="1439" alt="Screenshot 2024-08-29 at 4 15 08 AM" src="https://github.com/user-attachments/assets/2eac54eb-e392-43ac-9a32-fa2fca2eb3be">
+
+**Pending Appointment**: 
+
+<img width="622" alt="Screenshot 2024-08-29 at 4 16 35 AM" src="https://github.com/user-attachments/assets/bbe28501-cb6e-4768-b066-22c75b63d4a5">
+
+**Barber Appointment**: 
+
+<img width="550" alt="Screenshot 2024-08-29 at 4 16 44 AM" src="https://github.com/user-attachments/assets/8c9a9299-927c-4009-b058-1d1ba708e5d8">
